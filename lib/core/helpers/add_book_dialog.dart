@@ -22,7 +22,7 @@ import '../widgets/y_text.dart' show YText;
 import 'id_generators/text_id_generator.dart' show TextIdGenerator;
 import 'routes.dart' show AppRouter;
 
-Future<void> addBookDialog(
+Future<void> setBookDialog(
   final BuildContext context, {
   final BookEntity? book,
 }) => showAdaptiveDialog(

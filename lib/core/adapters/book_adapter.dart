@@ -5,18 +5,13 @@ final class BookAdapter extends TypeAdapter<BookEntity> {
   int get typeId => 0;
 
   @override
-  BookEntity read(final BinaryReader reader) {
-    final json = reader.readMap().map<String, dynamic>(
-      (final key, final value) => MapEntry(key, value),
-    );
-    return BookModel.fromJson(json).toEntity();
-  }
+  BookEntity read(final BinaryReader reader) => BookModel.fromJson(
+    Map<String, dynamic>.from(reader.readMap()),
+  ).toEntity();
 
   @override
-  void write(final BinaryWriter writer, final BookEntity obj) {
-    final json = BookModel.fromEntity(obj).toJson();
-    return writer.writeMap(json);
-  }
+  void write(final BinaryWriter writer, final BookEntity obj) =>
+      writer.writeMap(BookModel.fromEntity(obj).toJson());
 
   @override
   int get hashCode => typeId.hashCode;

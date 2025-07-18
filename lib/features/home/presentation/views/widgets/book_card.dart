@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show ReadContext;
 import 'package:intl/intl.dart';
 
+import '../../../../../core/constants/borders.dart' show AppBorders;
 import '../../../../../core/entities/book_entity.dart';
-import '../../../../../core/helpers/add_book_dialog.dart' show addBookDialog;
+import '../../../../../core/helpers/add_book_dialog.dart' show setBookDialog;
 import '../../../../../core/helpers/routes.dart';
 import '../../../../../core/widgets/y_text.dart';
 import '../../controllers/manage_books_cubit/manage_books_cubit.dart';
@@ -15,13 +16,15 @@ class BookCard extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => Card.filled(
-    margin: const EdgeInsets.all(8),
+    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+    shape: const RoundedSuperellipseBorder(borderRadius: AppBorders.m),
     clipBehavior: Clip.antiAlias,
     child: InkWell(
-      onTap: () => addBookDialog(context, book: book),
+      onTap: () => setBookDialog(context, book: book),
       child: Column(
         children: [
           ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
             leading: const Icon(Icons.book_rounded),
             title: YText('${book.title!} - ${book.author!}'),
             subtitle: YText(
@@ -30,6 +33,13 @@ class BookCard extends StatelessWidget {
             ),
             trailing: IconButton.filledTonal(
               icon: const Icon(Icons.delete_rounded),
+              style: IconButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.error,
+                foregroundColor: Theme.of(context).colorScheme.onError,
+                shape: const RoundedSuperellipseBorder(
+                  borderRadius: AppBorders.xxs,
+                ),
+              ),
               onPressed: () => showAdaptiveDialog(
                 context: context,
                 builder: (_) => AlertDialog.adaptive(
@@ -44,13 +54,12 @@ class BookCard extends StatelessWidget {
                       child: const YText('Cancel'),
                     ),
                     TextButton(
-                      onPressed: () => context
-                          .read<ManageBooksCubit>()
-                          .delete(book)
-                          .then(
-                            (_) =>
-                                context.mounted ? AppRouter.pop(context) : null,
-                          ),
+                      onPressed: () async {
+                        await context.read<ManageBooksCubit>().delete(book);
+                        if (context.mounted) {
+                          AppRouter.pop(context);
+                        }
+                      },
                       child: const YText('Delete'),
                     ),
                   ],

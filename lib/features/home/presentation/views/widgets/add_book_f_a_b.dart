@@ -3,6 +3,7 @@ import 'package:flutter/material.dart'
 import 'package:flutter_bloc/flutter_bloc.dart' show BlocBuilder;
 
 import '../../../../../core/helpers/add_book_dialog.dart';
+import '../../../../../core/widgets/y_text.dart' show YText;
 import '../../controllers/manage_books_cubit/manage_books_cubit.dart'
     show ManageBooksCubit, ManageBooksState;
 
@@ -11,9 +12,10 @@ class AddBookFAB extends StatelessWidget {
 
   @override
   BlocBuilder build(_) => BlocBuilder<ManageBooksCubit, ManageBooksState>(
-    builder: (final context, final state) => FloatingActionButton(
-      onPressed: () => addBookDialog(context),
-      child: const Icon(Icons.add_rounded),
+    builder: (final context, final state) => FloatingActionButton.extended(
+      onPressed: () => setBookDialog(context),
+      label: const YText('Add Book'),
+      icon: const Icon(Icons.add_rounded),
     ),
   );
 }

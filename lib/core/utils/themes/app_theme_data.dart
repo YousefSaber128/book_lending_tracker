@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart'
     show
+        AppBarTheme,
+        CardThemeData,
+        DialogThemeData,
+        EdgeInsets,
+        EdgeInsetsDirectional,
         FilledButton,
         FilledButtonThemeData,
+        FloatingActionButtonThemeData,
         IconButton,
         IconButtonThemeData,
         InputDecorationTheme,
@@ -22,6 +28,11 @@ import '../../constants/borders.dart' show AppBorders;
 @immutable
 sealed class AppThemeData {
   const AppThemeData();
+
+  static const AppBarTheme appBar = AppBarTheme(
+    elevation: 0,
+    actionsPadding: EdgeInsets.only(right: 8),
+  );
 
   static const InputDecorationTheme inputDecoration = InputDecorationTheme(
     border: OutlineInputBorder(borderRadius: AppBorders.xs),
@@ -46,6 +57,18 @@ sealed class AppThemeData {
     labelSmall: TextStyle(overflow: TextOverflow.fade),
   );
 
+  static const CardThemeData card = CardThemeData(
+    elevation: 0,
+    margin: EdgeInsets.zero,
+  );
+
+  static const DialogThemeData dialog = DialogThemeData(
+    elevation: 0,
+    shape: RoundedSuperellipseBorder(borderRadius: AppBorders.m),
+    actionsPadding: EdgeInsetsDirectional.only(bottom: 16, end: 16, start: 16),
+    insetPadding: EdgeInsets.all(16),
+  );
+
   static final FilledButtonThemeData filledButton = FilledButtonThemeData(
     style: FilledButton.styleFrom(
       textStyle: const TextStyle(fontSize: 16),
@@ -53,6 +76,13 @@ sealed class AppThemeData {
       shape: const RoundedSuperellipseBorder(borderRadius: AppBorders.xs),
     ),
   );
+
+  static const FloatingActionButtonThemeData floatingActionButton =
+      FloatingActionButtonThemeData(
+        elevation: 0,
+        highlightElevation: 0,
+        shape: RoundedSuperellipseBorder(borderRadius: AppBorders.s),
+      );
 
   static final IconButtonThemeData iconButton = IconButtonThemeData(
     style: IconButton.styleFrom(

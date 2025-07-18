@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart'
 import 'package:meta/meta.dart';
 
 import '../models/book_model.dart' show BookModel;
+
 part '../adapters/book_adapter.dart';
 
 @immutable

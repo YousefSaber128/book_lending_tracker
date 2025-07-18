@@ -5,8 +5,8 @@ import 'local_database_service.dart' show LocalDatabaseService;
 final class HiveService implements LocalDatabaseService {
   const HiveService();
 
-  Box<Map<String, dynamic>> _box(final String collection) =>
-      Hive.box<Map<String, dynamic>>(collection);
+  Box<Map<dynamic, dynamic>> _box(final String collection) =>
+      Hive.box<Map<dynamic, dynamic>>(collection);
 
   @override
   Future<void> init() => Hive.initFlutter();
@@ -16,8 +16,8 @@ final class HiveService implements LocalDatabaseService {
       Hive.registerAdapter<T>(adapter);
 
   @override
-  Future<void> open(final String collection) =>
-      Hive.openBox<Map<String, dynamic>>(collection);
+  Future<Box<Map<dynamic, dynamic>>> openBox(final String collection) =>
+      Hive.openBox<Map<dynamic, dynamic>>(collection);
 
   @override
   Future<void> add(
@@ -37,17 +37,20 @@ final class HiveService implements LocalDatabaseService {
   Map<String, dynamic>? getDocument(
     final String collection,
     final String key,
-  ) => _box(collection).get(key);
+  ) => _box(collection).get(key)?.cast<String, dynamic>();
 
   @override
   List<Map<String, dynamic>?> getDocuments(
     final String collection,
     final List<String> keys,
-  ) => keys.map((final key) => _box(collection).get(key)).toList();
+  ) => keys
+      .map((final key) => _box(collection).get(key)?.cast<String, dynamic>())
+      .toList();
 
   @override
-  List<Map<String, dynamic>> getCollection(final String collection) =>
-      _box(collection).values.toList();
+  List<Map<String, dynamic>> getCollection(final String collection) => _box(
+    collection,
+  ).values.map((final e) => e.cast<String, dynamic>()).toList();
 
   @override
   Future<void> delete(final String collection, final String key) =>

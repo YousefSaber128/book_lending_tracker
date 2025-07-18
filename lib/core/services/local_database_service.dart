@@ -7,7 +7,7 @@ abstract interface class LocalDatabaseService {
 
   void registerAdapter<T>(final TypeAdapter<T> adapter);
 
-  Future<void> open(final String collection);
+  Future<void> openBox(final String collection);
 
   Future<void> add(
     final String collection,
